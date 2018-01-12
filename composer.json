@@ -1,0 +1,21 @@
+{
+    "require": {
+        "php": ">=5.5.9",
+        "phpmailer/phpmailer": "~5.2"
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Handler\\": "handler/",
+            "Lib\\":"lib"
+        }
+    }
+}
