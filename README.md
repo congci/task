@@ -8,6 +8,22 @@
 4、config() 获取配置数据、instance获取基础对象（原理是command类的属性）
 
 
+目录：
+   config
+      --local.php 里面必须写redis配置、其中eval为是否启用lua脚本执行redis命令、如果服务器支持、建议打开
+   exec
+      --任务的入口文件、一个任务写一个
+   handler
+      --任务的执行文件、执行函数名称固定为handle
+   library
+      --一些函数和类
+   vender
+      --一些类库、支持composer
+   Command.php
+      --执行命令入口逻辑、
+    
+
+
 
 原理：
 一个队列 queue 

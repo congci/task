@@ -12,39 +12,31 @@ namespace Lib;
  */
 class RedisClient
 {
+    //连接实例
     public $redis;
-
     //当前数据库ID号
-    protected $dbId=0;
-
-    //当前权限认证码
-    protected $auth;
-
+    protected $dbId = 0;
     /**
      * 实例化的对象,单例模式.
-     * @var \iphp\db\Redis
      */
-    static private $_instance=array();
-
+    private static $_instance=array();
     private  $k;
-
-    //连接属性数组
-    protected $timeout = 30;
 
     //什么时候重新建立连接
     protected $expireTime;
 
     protected $host;
-
     protected $port;
-
+    protected $password;
     protected $persistent = false;
+    protected $timeout = 30;
+
 
 
     public function __construct($config)
     {
-        $this->port        =    $config['port'] ? $config['port'] : 6379;
         $this->host        =    $config['host'];
+        $this->port        =    $config['port'] ? $config['port'] : 6379;
         $this->password    =    $config['password'];
         $this->persistent  =    $config['persistent'];
         isset($config['timeout']) && $this->timeout = $config['timeout'];
@@ -72,9 +64,9 @@ class RedisClient
             {
                 $this->auth($this->password);
             }
-        }catch(RedisException $e){
+        }catch(\RedisException $e){
             $message = "Create Redis instance faild.";
-            throw new Exception($message, 0, $e);
+            throw new \Exception($message, 0, $e);
         }
     }
 
@@ -814,7 +806,7 @@ class RedisClient
      */
     private function getAuth()
     {
-        return $this->auth;
+        return $this->password;
     }
 
     private function getHost()
@@ -832,7 +824,7 @@ class RedisClient
         return array(
             'host'=>$this->host,
             'port'=>$this->port,
-            'auth'=>$this->auth
+            'auth'=>$this->password
         );
     }
     /*********************事务的相关方法************************/
