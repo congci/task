@@ -967,4 +967,12 @@ class RedisClient
         $cmd="{$redisStr} KEYS \"{$keys}\" | xargs {$redisStr} del";
         return $cmd;
     }
+
+    //eval 命令
+    private function eval($script,$num_keys=null,...$keyOrArg1){
+        if(count($keyOrArg1) == 0) {
+            $keyOrArg1 = [];
+        }
+        return $this->redis->eval($script,$keyOrArg1, $num_keys);
+    }
 }

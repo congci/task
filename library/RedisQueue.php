@@ -1,17 +1,34 @@
 <?php
 namespace Lib;
 
-
 class RedisQueue{
     public $client;
     protected $retryAfter = 0;
     protected $queue;
+    protected $eval = false;
 
     public function __construct()
     {
         $configRedis = config('redis');
+        $this->eval  = $configRedis['eval'];
         $this->client = new RedisClient($configRedis);
         $this->client->connect();
+    }
+
+    //计算任务数
+    public function size($queue){
+        if($this->eval){
+            return $this->client->eval(
+                LuaScripts::size(), 3, $queue, $queue.':delayed', $queue.':reserved'
+            );
+        }
+        $result = $this->client->Transation(function($client)use($queue){
+            $client->llen($queue);
+            $client->zcard($queue.':delayed');
+            $client->zcard($queue.':reserved');
+        });
+        return array_sum($result);
+
     }
 
 
@@ -33,6 +50,13 @@ class RedisQueue{
     }
 
     protected function retrieveNextJob($queue){
+        if($this->eval){
+            return $this->client->eval(
+                LuaScripts::pop(), 2, $queue, $queue.':reserved',
+                $this->availableAt($this->retryAfter)
+            );
+        }
+        //如果不支持eval命令
         $job = $this->client->lPop($queue);
         $reserved = false;
         if($job && !empty($job)){
@@ -53,8 +77,16 @@ class RedisQueue{
         return time() + $delay;
     }
 
+
+
     protected function migrateExpiredJobs($from, $to){
         $time = time();
+
+        if($this->eval){
+            return $this->client->eval(
+                LuaScripts::migrateExpiredJobs(), 2, $from, $to, $time
+            );
+        }
         $val = $this->client->zRangeByScore($from,'-inf',$time);
         $this->client->Transation(function($redis)use ($from,$to,$val){
             $count = count($val);
@@ -71,6 +103,12 @@ class RedisQueue{
     public function deleteAndRelease($queue, $job, $delay){
         $reserved = $job->getReservedJob();
         if($reserved){
+            if($this->eval){
+                return $this->client->eval(
+                    LuaScripts::release(), 2, $queue.':delayed', $queue.':reserved',
+                    $reserved, $this->availableAt($delay)
+                );
+            }
             $this->client->Transation(function ($redis)use($queue,$reserved,$delay){
                 $redis->zRem($queue.':reserved',$reserved);
                 $redis->zAdd($queue.':delayed',$this->availableAt($delay),$reserved);

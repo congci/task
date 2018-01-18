@@ -7,6 +7,7 @@ require_once __DIR__ . '/library/RedisClient.php';
 require_once __DIR__ . '/library/Log.php';
 require_once __DIR__ . '/library/Job.php';
 
+
 date_default_timezone_set('Asia/Shanghai');
 
 class Command{
@@ -48,6 +49,7 @@ class Command{
     protected function memoryLimit($limit = 128){
         $mem = memory_get_usage();
         if($mem /1024 /1024 > $limit){
+            $this->log->info('内存超过限制、可能有内存泄漏风险');
             exit;
         }
     }

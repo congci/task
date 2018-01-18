@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit8cb4530732c3b63268a7147d78feecc6
 {
     public static $prefixLengthsPsr4 = array (
+        'L' => 
+        array (
+            'Lib\\' => 4,
+        ),
         'H' => 
         array (
             'Handler\\' => 8,
@@ -14,6 +18,10 @@ class ComposerStaticInit8cb4530732c3b63268a7147d78feecc6
     );
 
     public static $prefixDirsPsr4 = array (
+        'Lib\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/library',
+        ),
         'Handler\\' => 
         array (
             0 => __DIR__ . '/../..' . '/handler',
@@ -23,6 +31,13 @@ class ComposerStaticInit8cb4530732c3b63268a7147d78feecc6
     public static $classMap = array (
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'Handler\\InvoiceHandler' => __DIR__ . '/../..' . '/handler/InvoiceHandler.php',
+        'Lib\\Job' => __DIR__ . '/../..' . '/library/Job.php',
+        'Lib\\JsonProtocol' => __DIR__ . '/../..' . '/library/Rpc.php',
+        'Lib\\Log' => __DIR__ . '/../..' . '/library/Log.php',
+        'Lib\\LuaScripts' => __DIR__ . '/../..' . '/library/LuaScripts.php',
+        'Lib\\RedisClient' => __DIR__ . '/../..' . '/library/RedisClient.php',
+        'Lib\\RedisQueue' => __DIR__ . '/../..' . '/library/RedisQueue.php',
+        'Lib\\Rpc' => __DIR__ . '/../..' . '/library/Rpc.php',
         'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
         'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',

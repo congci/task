@@ -15,7 +15,7 @@
     "autoload": {
         "psr-4": {
             "Handler\\": "handler/",
-            "Lib\\":"lib"
+            "Lib\\":"library/"
         }
     }
 }

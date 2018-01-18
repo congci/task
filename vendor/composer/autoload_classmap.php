@@ -8,6 +8,13 @@ $baseDir = dirname($vendorDir);
 return array(
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
     'Handler\\InvoiceHandler' => $baseDir . '/handler/InvoiceHandler.php',
+    'Lib\\Job' => $baseDir . '/library/Job.php',
+    'Lib\\JsonProtocol' => $baseDir . '/library/Rpc.php',
+    'Lib\\Log' => $baseDir . '/library/Log.php',
+    'Lib\\LuaScripts' => $baseDir . '/library/LuaScripts.php',
+    'Lib\\RedisClient' => $baseDir . '/library/RedisClient.php',
+    'Lib\\RedisQueue' => $baseDir . '/library/RedisQueue.php',
+    'Lib\\Rpc' => $baseDir . '/library/Rpc.php',
     'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
     'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',
     'PHPMailerOAuthGoogle' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
